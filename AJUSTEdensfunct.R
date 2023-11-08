@@ -1,5 +1,5 @@
-# Definir la funciÛn de densidad de probabilidad para ajustar los par·metros
-# del modelo. La funciÛn es d(q)=sum[Ci,exp-Ci,teor(q)]^2
+# Definir la funci√≥n de densidad de probabilidad para ajustar los par√°metros
+# del modelo. La funci√≥n es d(q)=sum[Ci,exp-Ci,teor(q)]^2
 #
 # Inputs: expData (datos t vs I experimentales) y theorData (un valor de I o Po para cada tiempo).
 
