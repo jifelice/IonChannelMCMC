@@ -1,4 +1,4 @@
-# Guarda los par·metros iniciales de la corrida en un .txt
+# Guarda los par√°metros iniciales de la corrida en un .txt
 # Va a guardar todo lo que figura en "nombres"
 
 
