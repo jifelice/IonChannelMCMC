@@ -1,4 +1,4 @@
-# Programa con nucleo de MCMC para ajuste "automatico" de par·metros de modelo
+# Programa con nucleo de MCMC para ajuste "automatico" de par√°metros de modelo
 #
 # Inputs: q, d2Ini, nPasos, Nini, d2Fin, Kv, limSup, limInf, rho, theorData, expData, sigma
 #
@@ -19,7 +19,7 @@ calcularMCMC <- function(q, d2Ini, nPasosBase, Nini, d2Fin, Kv, limSup, limInf, 
 		}
 
 
-	nCoord <- length(q)	# El n˙mero de coordenadas sale del largo del vector inicial (q0)
+	nCoord <- length(q)	# El n√∫mero de coordenadas sale del largo del vector inicial (q0)
 
 	N <- Nini			# La variable va a ser N, inicialmente toma el valor Nini
 
@@ -33,7 +33,7 @@ calcularMCMC <- function(q, d2Ini, nPasosBase, Nini, d2Fin, Kv, limSup, limInf, 
 
 	d2 <- d2Ini				# Para el primer paso	
 
-	av <- c(1:length(q))*0		# vector con el valor de a (para el mesh) para cada par·metro
+	av <- c(1:length(q))*0		# vector con el valor de a (para el mesh) para cada par√°metro
 
 	sigma <- sigmaIni
 
@@ -47,12 +47,12 @@ calcularMCMC <- function(q, d2Ini, nPasosBase, Nini, d2Fin, Kv, limSup, limInf, 
 
 	fileArranque <- "arranque.txt"			# Nombre del archivo que guarda por si se corta la simulacion
 
-	fileArranqueTT <- "arranqueTT.txt"			# Nombre del archivo que guarda para usar despuÈs en el algoritmo de Tratam Termico
+	fileArranqueTT <- "arranqueTT.txt"			# Nombre del archivo que guarda para usar despu√©s en el algoritmo de Tratam Termico
 
 	while(d2despues > d2Fin){
 
 		#Hay que calcular nuevamente el av cuando cambia el N (inputs: limInf, limSup, N)
-		# Ver si ac· o en otro lado para que no lo calcule siempre.
+		# Ver si ac√° o en otro lado para que no lo calcule siempre.
 		
 		for (imesh in 1:length(q)){
 			av[imesh] <- ((limSup[imesh]+Kv[imesh])/(limInf[imesh]+Kv[imesh]))^(1/N)
@@ -64,31 +64,31 @@ calcularMCMC <- function(q, d2Ini, nPasosBase, Nini, d2Fin, Kv, limSup, limInf, 
 
 		for (i in 1:nPasos){
 
-			qPrevia <- q					# Valor de q previo al c·lculo (serÌa el q_mu)
-			d2Previa <- d2					# Valor de d previo al c·lculo (serÌa el d(q_mu))
+			qPrevia <- q					# Valor de q previo al c√°lculo (ser√≠a el q_mu)
+			d2Previa <- d2					# Valor de d previo al c√°lculo (ser√≠a el d(q_mu))
 
 			coord <- sample(1:nCoord, 1)			# Elige aleatoriamente la coordenada que se mueve
-			s <- sample(c(-1,1),1)				# Elige aleatoriamente hacia quÈ lado se mueve la coordenada
-			q[coord] <- (q[coord] + Kv[coord])*(av[coord]^s)-Kv[coord] # Valor de q nuevo (serÌa el q_nu)
+			s <- sample(c(-1,1),1)				# Elige aleatoriamente hacia qu√© lado se mueve la coordenada
+			q[coord] <- (q[coord] + Kv[coord])*(av[coord]^s)-Kv[coord] # Valor de q nuevo (ser√≠a el q_nu)
 					
-			if (q[coord]<limInf[coord]|q[coord]>limSup[coord]|sum(q[7:12])<cargaMin|sum(q[7:12])>cargaMax){		# Prueba que no se vaya de los lÌmites o de la suma de cargas 
+			if (q[coord]<limInf[coord]|q[coord]>limSup[coord]|sum(q[7:12])<cargaMin|sum(q[7:12])>cargaMax){		# Prueba que no se vaya de los l√≠mites o de la suma de cargas 
 
 				q[coord] <- qPrevia[coord]
 
-				# d2 y rho quedan con el valor que tenÌan antes
+				# d2 y rho quedan con el valor que ten√≠an antes
 
 			} else {
 
-				# --------------- Eval˙a si se acepta el movimiento ----------------------
+				# --------------- Eval√∫a si se acepta el movimiento ----------------------
 
 				theorData <- calcularptot(voltajes, q, T, p0, tiempos)	# Calcula nuevas corrientes teoricas
 
-				d2Nueva <- dens(theorData, expData)		# Calcula el nuevo valor de d (serÌa el d(q_nu))
+				d2Nueva <- dens(theorData, expData)		# Calcula el nuevo valor de d (ser√≠a el d(q_nu))
 
-				if (d2Nueva < d2Previa){			# Se acepta porque bajÛ la distancia
+				if (d2Nueva < d2Previa){			# Se acepta porque baj√≥ la distancia
 					d2 <- d2Nueva					
 				} else {
-					deltad2 <- d2Nueva-d2Previa		# es > 1 (porque la d2 no bajÛ)
+					deltad2 <- d2Nueva-d2Previa		# es > 1 (porque la d2 no baj√≥)
 					rnd1 <- runif(1)
 					pAcept <- exp(-deltad2/(2*sigma^2))
 					if (rnd1 <= pAcept) {	# Se acepta
@@ -102,17 +102,17 @@ calcularMCMC <- function(q, d2Ini, nPasosBase, Nini, d2Fin, Kv, limSup, limInf, 
 				} #fin if de limites y sumas de cargas
 
 
-			# ---- Guarda los valores en los vectores (guarda por m·s que se acepte o no el paso) ---------------------------
+			# ---- Guarda los valores en los vectores (guarda por m√°s que se acepte o no el paso) ---------------------------
 
 			indice <- i + ciclos*nPasos	# Va calculando los pasos 
 			MCMC[indice,1:nCoord] <- q
 			MCMC[indice,nCoord+1] <- d2
 
-			# ---- Guarda los valores cada cierto tiempo (m·s adelante los guarda en un .txt) -------------------
+			# ---- Guarda los valores cada cierto tiempo (m√°s adelante los guarda en un .txt) -------------------
 
 			if (i%%nWrite == 0){		
 				
-				MCMCRes[iWrite,1] <- indice			# Guarda el n˙mero de paso
+				MCMCRes[iWrite,1] <- indice			# Guarda el n√∫mero de paso
 				MCMCRes[iWrite,2:(nCoord+1)] <- q
 				MCMCRes[iWrite,nCoord+2] <- d2
 
@@ -156,7 +156,7 @@ calcularMCMC <- function(q, d2Ini, nPasosBase, Nini, d2Fin, Kv, limSup, limInf, 
 ###G  for (iplot in 2:ncol(expData)){
 ###G  points(expData[,1], expData[,iplot], col=iplot-1)
 ###G  }
-###G  legend(0, 1, legend=c("Experimental", "TeÛrica"), pch=c(1,4))
+###G  legend(0, 1, legend=c("Experimental", "Te√≥rica"), pch=c(1,4))
 
 				dev.off()
 				}
@@ -164,7 +164,7 @@ calcularMCMC <- function(q, d2Ini, nPasosBase, Nini, d2Fin, Kv, limSup, limInf, 
 
 			# ------- Decide como seguir (baja sigma, sube N, etc.) ---------------
 
-			# Calcular d2antes (es la distancia que habÌa antes del nuevo ciclo de nPasos)
+			# Calcular d2antes (es la distancia que hab√≠a antes del nuevo ciclo de nPasos)
 			# d2antes es un promedio (salvo en el primer paso que es el valor inicial)
 
 			if (ciclos == 1){
@@ -186,7 +186,7 @@ calcularMCMC <- function(q, d2Ini, nPasosBase, Nini, d2Fin, Kv, limSup, limInf, 
 			evolucion[5] <- sigma
 			evolucion[6] <- N
 
-				# --- Guarda la evoluciÛn de un ciclo 
+				# --- Guarda la evoluci√≥n de un ciclo 
 
 				filenameEvolucion <- paste("evolucion_nPasos",nPasos,".txt",sep="_")
 				cat(t(evolucion), "\n", file=filenameEvolucion, append=TRUE, sep="\t")
@@ -208,13 +208,13 @@ calcularMCMC <- function(q, d2Ini, nPasosBase, Nini, d2Fin, Kv, limSup, limInf, 
 				cat(datad2antes, "\n", file=fileArranque, append=TRUE, sep="")
 
 
-				if ((d2antes-d2despues)/d2antes > told2){		# la distancia(%) bajÛ m·s que told2
+				if ((d2antes-d2despues)/d2antes > told2){		# la distancia(%) baj√≥ m√°s que told2
 
 					sigma <- sigma/factorSigma			# Baja sigma
 					indiceN <- 1					# Lo lleva a 1, primer ciclo con ese sigma y N
 					indiceSigma <- 1					# Lo lleva a 1, primer ciclo con ese sigma y N
 
-				} else {							# la distancia(%) NO bajÛ m·s que told2
+				} else {							# la distancia(%) NO baj√≥ m√°s que told2
 				
 					if (indiceN == 1 & N <= Nmax & indiceSigma == 1){		# Sube el N una vez
 
@@ -251,7 +251,7 @@ calcularMCMC <- function(q, d2Ini, nPasosBase, Nini, d2Fin, Kv, limSup, limInf, 
 		}
 
 	if (fGuardarGrafico12Param == 1){
-		#############- GR¡FICO DE PAR¡METROS A LO LARGO DE LOS PASOS (a un .png)
+		#############- GR√ÅFICO DE PAR√ÅMETROS A LO LARGO DE LOS PASOS (a un .png)
 
 		final <- length(MCMC[,1])
 
@@ -262,7 +262,7 @@ calcularMCMC <- function(q, d2Ini, nPasosBase, Nini, d2Fin, Kv, limSup, limInf, 
 					"beta_0_3", "zeta_alpha_1", "zeta_alpha_2", "zeta_alpha_3",
 					"zeta_beta_1", "zeta_beta_2", "zeta_beta_3")
 
-		q0Villalba <- c(4.5940e-4, 1.3196e-3, 1.5538e-2, 3.7759e-7, 4.4267e-3, 8.6658e-4, 	# Valor inicial de coordenadas (para el HVCN1 son 12 par·metros = 12 coordenadas)
+		q0Villalba <- c(4.5940e-4, 1.3196e-3, 1.5538e-2, 3.7759e-7, 4.4267e-3, 8.6658e-4, 	# Valor inicial de coordenadas (para el HVCN1 son 12 par√°metros = 12 coordenadas)
 						7.4982e-1, 1.0120, 1.3479e-5, 2.0726, 2.0705, 1.6309e-7)
 
 		filenamepng <- paste("12param-",fecha,"-",semilla,".png", sep="")	# Nombre del archivo a guardar
@@ -272,14 +272,14 @@ calcularMCMC <- function(q, d2Ini, nPasosBase, Nini, d2Fin, Kv, limSup, limInf, 
 		par(mfrow=c(3,4), cex.axis=1.4, cex.lab=1.75)			# Organizados en 3 filas de 4 columnas cada una
 
 ###G for (iParam in 1:6){
-		#	plot(paso, MCMC[1:final, iParam], xlab="N˙mero paso", ylab=parametro[iParam], log="y")
-###G plot(paso, MCMC[1:final, iParam], xlab="N˙mero paso", ylab=parametro[iParam], ylim=c(limInf[iParam],limSup[iParam]), log="y")
+		#	plot(paso, MCMC[1:final, iParam], xlab="N√∫mero paso", ylab=parametro[iParam], log="y")
+###G plot(paso, MCMC[1:final, iParam], xlab="N√∫mero paso", ylab=parametro[iParam], ylim=c(limInf[iParam],limSup[iParam]), log="y")
 ###G abline(h=q0Villalba[iParam], col="red")
 ###G }
 
 ###G for (iParam in 7:12){
-		#	plot(paso, MCMC[1:final, iParam], xlab="N˙mero paso", ylab=parametro[iParam])
-###G plot(paso, MCMC[1:final, iParam], xlab="N˙mero paso", ylab=parametro[iParam], ylim=c(limInf[iParam],limSup[iParam]))
+		#	plot(paso, MCMC[1:final, iParam], xlab="N√∫mero paso", ylab=parametro[iParam])
+###G plot(paso, MCMC[1:final, iParam], xlab="N√∫mero paso", ylab=parametro[iParam], ylim=c(limInf[iParam],limSup[iParam]))
 ###G abline(h=q0Villalba[iParam], col="red")
 ###G }
 
@@ -287,7 +287,7 @@ calcularMCMC <- function(q, d2Ini, nPasosBase, Nini, d2Fin, Kv, limSup, limInf, 
 
 		}
 
-	# --- Guarda el valor de semilla y ⁄LTIMOS valores de q, d2 y ciclo 
+	# --- Guarda el valor de semilla y √öLTIMOS valores de q, d2 y ciclo 
 
 #	filenametxtfinal <- paste("ResultadosFinal-",semilla,"-",fecha,".txt", sep="")	# Nombre del archivo a guardar
 	filenametxtfinal <- paste("ResultadosFinal.txt")				# Nombre del archivo a guardar (sin fecha ni semilla)
@@ -297,7 +297,7 @@ calcularMCMC <- function(q, d2Ini, nPasosBase, Nini, d2Fin, Kv, limSup, limInf, 
 	write.table(ValoresFinales, file=filenametxtfinal, sep = "\t ",col.names=FALSE,row.names=FALSE,quote=FALSE)
 
 
-	# ---- Crea el archivo arranqueTT.txt por si se ejecuta despuÈs el algoritmo de Tratamiento Termico
+	# ---- Crea el archivo arranqueTT.txt por si se ejecuta despu√©s el algoritmo de Tratamiento Termico
 
 	cat("q <- c(",q[1],",",q[2],",",q[3],",",q[4],",",q[5],",",q[6],",",q[7],",",q[8],",",q[9],",",q[10],",",q[11],",",q[12],")","\n", file=fileArranqueTT, append=TRUE, sep="")
 	cat("d2Ini <- ", d2, "\n", file=fileArranqueTT, append=TRUE, sep="")
