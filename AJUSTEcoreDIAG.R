@@ -10,7 +10,7 @@ calcularptot <- function(voltajes, q, T, p0, tiempos){
 
 	nEstados <- length(p0)
 
-	p_open_totales <- matrix(0, nrow=length(tiempos), ncol=length(voltajes)+1)	# Una fila será para los t también
+	p_open_totales <- matrix(0, nrow=length(tiempos), ncol=length(voltajes)+1)	# Una fila serÃ¡ para los t tambiÃ©n
 
 	t_tot <- c((1:length(tiempos))*0)
 
@@ -34,7 +34,7 @@ calcularptot <- function(voltajes, q, T, p0, tiempos){
 
 		t <- 0
 
-		for (it in 1:length(tiempos)){				# GUARDA LOS 4 ESTADOS... ¿SOLO EL O?
+		for (it in 1:length(tiempos)){				# GUARDA LOS 4 ESTADOS... Â¿SOLO EL O?
 			t <- tiempos[it]
 			p <- c((1:nEstados)*0)
 			for (i in 1:nEstados){
