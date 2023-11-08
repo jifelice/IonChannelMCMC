@@ -1,7 +1,7 @@
-# Programa con nucleo de MCMC para ajuste mediante "tratamiento termico" de los par·metros de modelo
-# En principio, serÌa para usar despuÈs de correr el algoritmo de ajuste autom·tico
+# Programa con nucleo de MCMC para ajuste mediante "tratamiento termico" de los par√°metros de modelo
+# En principio, ser√≠a para usar despu√©s de correr el algoritmo de ajuste autom√°tico
 #
-# Va leer resultados del archivo arranque.Txt y parametros (sigma, N y n˙mero de pasos) de ParametrosTT.R
+# Va leer resultados del archivo arranque.Txt y parametros (sigma, N y n√∫mero de pasos) de ParametrosTT.R
 
 
 ## Algoritmo MCMC
@@ -10,7 +10,7 @@ calcularMCMCTT <- function(Kv, limSup, limInf, sigmasTT, NsTT, pasosTT, cargaMin
 					fGuardarDatos,fGuardarGraficos, primerCiclo){ 
 
 
-	nCoordTT <- length(q)	# El n˙mero de coordenadas sale del largo del vector inicial (q0)
+	nCoordTT <- length(q)	# El n√∫mero de coordenadas sale del largo del vector inicial (q0)
 
 	nCiclosTT <- length(sigmasTT)
 
@@ -30,7 +30,7 @@ calcularMCMCTT <- function(Kv, limSup, limInf, sigmasTT, NsTT, pasosTT, cargaMin
 
 	for (iCicloTT in primerCiclo:nCiclosTT){
 
-		av <- c(1:length(q))*0				# vector con el valor de a (para el mesh) para cada par·metro
+		av <- c(1:length(q))*0				# vector con el valor de a (para el mesh) para cada par√°metro
 
 		evolucionTT <- c(1:6)*0				# Guarda valores de ciclo, sigma, d2 y N por ciclo
 
@@ -48,22 +48,22 @@ calcularMCMCTT <- function(Kv, limSup, limInf, sigmasTT, NsTT, pasosTT, cargaMin
 
 		for (i in 1:pasos){
 
-			qPreviaTT <- q					# Valor de q previo al c·lculo (serÌa el q_mu)
-			d2PreviaTT <- d2					# Valor de d previo al c·lculo (serÌa el d(q_mu))
+			qPreviaTT <- q					# Valor de q previo al c√°lculo (ser√≠a el q_mu)
+			d2PreviaTT <- d2					# Valor de d previo al c√°lculo (ser√≠a el d(q_mu))
 
 			# Elige que parametro va a cambiar
 			coord <- sample(1:nCoordTT, 1)					# Elige aleatoriamente la coordenada que se mueve
-			s <- sample(c(-1,1),1)							# Elige aleatoriamente hacia quÈ lado se mueve la coordenada
+			s <- sample(c(-1,1),1)							# Elige aleatoriamente hacia qu√© lado se mueve la coordenada
                         rrr=runif(1)
                         if(coord<=6){
-			q[coord] <- (q[coord] + Kv[coord])*(av[coord]^(rrr*s))-Kv[coord]	# Valor de q nuevo (serÌa el q_nu)
+			q[coord] <- (q[coord] + Kv[coord])*(av[coord]^(rrr*s))-Kv[coord]	# Valor de q nuevo (ser√≠a el q_nu)
                         } else {
 			chuqui <- (q[coord] + Kv[coord])*(av[coord]^s)-Kv[coord]
                         dddqqq=chuqui-q[coord]
                         q[coord]=q[coord] + dddqqq*rrr
                         } 
 					
-			# Se fija si se va de los lÌmites de los par·metros o de la suma de cargas 
+			# Se fija si se va de los l√≠mites de los par√°metros o de la suma de cargas 
 
 			if (q[coord]<limInf[coord]|q[coord]>limSup[coord]|sum(q[7:12])<cargaMin|sum(q[7:12])>cargaMax){		
 
@@ -75,15 +75,15 @@ calcularMCMCTT <- function(Kv, limSup, limInf, sigmasTT, NsTT, pasosTT, cargaMin
 
 				theorData <- calcularptot(voltajes, q, T, p0, tiempos)	# Calcula nuevas corrientes teoricas
 
-				d2NuevaTT <- dens(theorData, expData)		# Calcula el nuevo valor de d (serÌa el d(q_nu))
+				d2NuevaTT <- dens(theorData, expData)		# Calcula el nuevo valor de d (ser√≠a el d(q_nu))
 
-				if (d2NuevaTT < d2PreviaTT){			# Se acepta porque bajÛ la distancia
+				if (d2NuevaTT < d2PreviaTT){			# Se acepta porque baj√≥ la distancia
 
 					d2 <- d2NuevaTT					
 
 				} else {
 
-					deltad2 <- d2NuevaTT-d2PreviaTT		# es > 1 (porque la d2 no bajÛ)
+					deltad2 <- d2NuevaTT-d2PreviaTT		# es > 1 (porque la d2 no baj√≥)
 
 					rnd1 <- runif(1)
 
@@ -103,17 +103,17 @@ calcularMCMCTT <- function(Kv, limSup, limInf, sigmasTT, NsTT, pasosTT, cargaMin
 
 				} #fin if de limites y sumas de cargas
 
-			# ---- Guarda los valores en los vectores (guarda por m·s que se acepte o no el paso) -----------------
+			# ---- Guarda los valores en los vectores (guarda por m√°s que se acepte o no el paso) -----------------
 
 			indiceTT <- i + sum(pasosTT[1:iCicloTT]) - pasosTT[1]			# Va calculando los pasos 
 			MCMCTT[indiceTT,1:nCoordTT] <- q
 			MCMCTT[indiceTT,nCoordTT+1] <- d2
 
-			# ---- Guarda los valores cada cierto tiempo (m·s adelante los guarda en un .txt) -------------------
+			# ---- Guarda los valores cada cierto tiempo (m√°s adelante los guarda en un .txt) -------------------
 
-			if (i%%nWrite == 0){						# Si i es m˙ltiplo de nWrite, guarda		
+			if (i%%nWrite == 0){						# Si i es m√∫ltiplo de nWrite, guarda		
 				
-				MCMCResTT[iWrite,1] <- indiceTT			# Guarda el n˙mero de paso
+				MCMCResTT[iWrite,1] <- indiceTT			# Guarda el n√∫mero de paso
 				MCMCResTT[iWrite,2:(nCoordTT+1)] <- q
 				MCMCResTT[iWrite,nCoordTT+2] <- d2
 
@@ -156,7 +156,7 @@ calcularMCMCTT <- function(Kv, limSup, limInf, sigmasTT, NsTT, pasosTT, cargaMin
 ###G points(expData[,1], expData[,iplot], col=iplot-1)
 ###G }
 
-###G legend(0, 1, legend=c("Experimental", "TeÛrica"), pch=c(1,4))
+###G legend(0, 1, legend=c("Experimental", "Te√≥rica"), pch=c(1,4))
 
 				dev.off()
 				}
@@ -180,7 +180,7 @@ calcularMCMCTT <- function(Kv, limSup, limInf, sigmasTT, NsTT, pasosTT, cargaMin
 			filenameEvolucion <- "evolucionTT.txt"
 			cat(t(evolucionTT), "\n", file=filenameEvolucion, append=TRUE, sep="\t")
 
-			# ---- Crea el archivo arranqueTTreanuda.txt por si se ejecuta despuÈs el algoritmo de Tratamiento Termico
+			# ---- Crea el archivo arranqueTTreanuda.txt por si se ejecuta despu√©s el algoritmo de Tratamiento Termico
 
 			cat("primerCiclo <- ", iCicloTT+1, "\n", file=fileArranqueTTreanuda, append=FALSE, sep="")
 			cat("q <- c(",q[1],",",q[2],",",q[3],",",q[4],",",q[5],",",q[6],",",q[7],",",q[8],",",q[9],",",q[10],",",q[11],",",q[12],")","\n", file=fileArranqueTTreanuda, append=TRUE, sep="")
@@ -199,7 +199,7 @@ calcularMCMCTT <- function(Kv, limSup, limInf, sigmasTT, NsTT, pasosTT, cargaMin
 		}
 
 	if (fGuardarGrafico12Param == 1){
-		#############- GR¡FICO DE PAR¡METROS A LO LARGO DE LOS PASOS (a un .png)
+		#############- GR√ÅFICO DE PAR√ÅMETROS A LO LARGO DE LOS PASOS (a un .png)
 
 		final <- length(MCMCTT[,1])
 
@@ -210,7 +210,7 @@ calcularMCMCTT <- function(Kv, limSup, limInf, sigmasTT, NsTT, pasosTT, cargaMin
 					"beta_0_3", "zeta_alpha_1", "zeta_alpha_2", "zeta_alpha_3",
 					"zeta_beta_1", "zeta_beta_2", "zeta_beta_3")
 
-		q0Villalba <- c(4.5940e-4, 1.3196e-3, 1.5538e-2, 3.7759e-7, 4.4267e-3, 8.6658e-4, 	# Valor inicial de coordenadas (para el HVCN1 son 12 par·metros = 12 coordenadas)
+		q0Villalba <- c(4.5940e-4, 1.3196e-3, 1.5538e-2, 3.7759e-7, 4.4267e-3, 8.6658e-4, 	# Valor inicial de coordenadas (para el HVCN1 son 12 par√°metros = 12 coordenadas)
 						7.4982e-1, 1.0120, 1.3479e-5, 2.0726, 2.0705, 1.6309e-7)
 
 		filenamepng <- paste("12param-",fecha,".png", sep="")	# Nombre del archivo a guardar
@@ -220,14 +220,14 @@ calcularMCMCTT <- function(Kv, limSup, limInf, sigmasTT, NsTT, pasosTT, cargaMin
 		par(mfrow=c(3,4), cex.axis=1.4, cex.lab=1.75)			# Organizados en 3 filas de 4 columnas cada una
 
 ###G for (iParam in 1:6){
-		#	plot(paso, MCMCTT[1:final, iParam], xlab="N˙mero paso", ylab=parametro[iParam], log="y")
-###G plot(paso, MCMCTT[1:final, iParam], xlab="N˙mero paso", ylab=parametro[iParam], ylim=c(limInf[iParam],limSup[iParam]), log="y")
+		#	plot(paso, MCMCTT[1:final, iParam], xlab="N√∫mero paso", ylab=parametro[iParam], log="y")
+###G plot(paso, MCMCTT[1:final, iParam], xlab="N√∫mero paso", ylab=parametro[iParam], ylim=c(limInf[iParam],limSup[iParam]), log="y")
 ###G abline(h=q0Villalba[iParam], col="red")
 ###G }
 
 ###G for (iParam in 7:12){
-		#	plot(paso, MCMCTT[1:final, iParam], xlab="N˙mero paso", ylab=parametro[iParam])
-###G plot(paso, MCMCTT[1:final, iParam], xlab="N˙mero paso", ylab=parametro[iParam], ylim=c(limInf[iParam],limSup[iParam]))
+		#	plot(paso, MCMCTT[1:final, iParam], xlab="N√∫mero paso", ylab=parametro[iParam])
+###G plot(paso, MCMCTT[1:final, iParam], xlab="N√∫mero paso", ylab=parametro[iParam], ylim=c(limInf[iParam],limSup[iParam]))
 ###G abline(h=q0Villalba[iParam], col="red")
 ###G }
 
@@ -235,7 +235,7 @@ calcularMCMCTT <- function(Kv, limSup, limInf, sigmasTT, NsTT, pasosTT, cargaMin
 
 		}
 
-	# --- Guarda el valor de semilla y ⁄LTIMOS valores de q, d2 y ciclo 
+	# --- Guarda el valor de semilla y √öLTIMOS valores de q, d2 y ciclo 
 
 	filenametxtfinal <- paste("ResultadosFinalTT.txt")				# Nombre del archivo a guardar
 
