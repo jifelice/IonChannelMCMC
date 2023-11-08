@@ -1,4 +1,4 @@
-# Calcula la matriz W para el conjunto de par·metros que se ingresan en el vector q
+# Calcula la matriz W para el conjunto de par√°metros que se ingresan en el vector q
 #
 # Inputs: q (valores de las constantes a 0 V), V, T, nEstados
 #
@@ -8,7 +8,7 @@
 calcularW <- function(q, V, T, nEstados){		
 
 	k <- 1.3806488e-23			# [J/K] Constante de Boltzmann (https://physics.nist.gov/cuu/Constants/index.html)
-	q_electron <- 1.602e-19			# [Coulomb] Carga del electrÛn
+	q_electron <- 1.602e-19			# [Coulomb] Carga del electr√≥n
 	
 
 	# Asigna la posicion en el vector q de las constantes a 0 V
@@ -19,12 +19,12 @@ calcularW <- function(q, V, T, nEstados){
 	beta_0_1 <- q[4]				# [mseg-1]
 	beta_0_2 <- q[5]				# [mseg-1]
 	beta_0_3 <- q[6]				# [mseg-1]
-	zeta_alpha_1 <- q[7]			# [n˙mero electrones]
-	zeta_alpha_2 <- q[8]			# [n˙mero electrones]
-	zeta_alpha_3 <- q[9]			# [n˙mero electrones]
-	zeta_beta_1 <- q[10]			# [n˙mero electrones]
-	zeta_beta_2 <- q[11]			# [n˙mero electrones]
-	zeta_beta_3 <- q[12]			# [n˙mero electrones]
+	zeta_alpha_1 <- q[7]			# [n√∫mero electrones]
+	zeta_alpha_2 <- q[8]			# [n√∫mero electrones]
+	zeta_alpha_3 <- q[9]			# [n√∫mero electrones]
+	zeta_beta_1 <- q[10]			# [n√∫mero electrones]
+	zeta_beta_2 <- q[11]			# [n√∫mero electrones]
+	zeta_beta_3 <- q[12]			# [n√∫mero electrones]
 
 
 	# Calcula las constantes (unidades de alphas y betas, mseg-1)
