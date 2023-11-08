@@ -1,13 +1,13 @@
 # Lee los datos de una corriente experimental y por otro lado va ajustando una
-# corriente teÛrica, para ajustar los par·metros y llegar a los que hagan coincidir 
-# las dos curvas. Lo hace en forma autom·tica hasta que se cumple una cierta distancia
+# corriente te√≥rica, para ajustar los par√°metros y llegar a los que hagan coincidir 
+# las dos curvas. Lo hace en forma autom√°tica hasta que se cumple una cierta distancia
 # entre las curvas (iniciado en agosto de 2021)
 
 # 1. Leer los valores de corrientes experimentales.
 # 2. Definir condiciones iniciales del vector q y voltajes (V)
-# 2. Para ese q y cada valor de V, calcular· una matriz W y calcular· la Po (p_open) teÛrica.
-# 3. Calcula la funciÛn densidad de probabilidad (comparando valores experimentales y valores teÛricos).
-# 4. Aleatoriamente cambia una de las coordenadas de q (es uno de los par·metros y vuelve a calcular la funciÛn densidad
+# 2. Para ese q y cada valor de V, calcular√° una matriz W y calcular√° la Po (p_open) te√≥rica.
+# 3. Calcula la funci√≥n densidad de probabilidad (comparando valores experimentales y valores te√≥ricos).
+# 4. Aleatoriamente cambia una de las coordenadas de q (es uno de los par√°metros y vuelve a calcular la funci√≥n densidad
 #	de probabilidad. 
 
 ########################################################################################################################
@@ -46,16 +46,16 @@ archivoExp <- "expData.txt"			# Nombre del archivo con los datos experimentales
 
 fileExpData <- paste("../", archivoExp, sep="")	# otros: "expDataPrueba3V.txt", "expDataPrueba9V.txt", "210304_002.IV IO.1(5,25,35mV)Res.txt"
 expData <- read.table(fileExpData, header=FALSE)
-tiempos <- expData[,1]				# Tiempos a calcular para las curvas teÛricas
+tiempos <- expData[,1]				# Tiempos a calcular para las curvas te√≥ricas
 
 
 #############- Para el algoritmo MCMC:
 
 q <- c(1:12)*0			# Inicia el vector q
-Kv <- c(1:length(q))*0		# Inicia el vector Kv con el valor de K para cada par·metro
+Kv <- c(1:length(q))*0		# Inicia el vector Kv con el valor de K para cada par√°metro
 
 for (iTipo in 1:length(tipoMesh)){
-	Kv[iTipo] <- limSup[iTipo]*100*tipoMesh[iTipo]	# K = 0 (escala logarÌtmica) y K >> q max (escala lineal)
+	Kv[iTipo] <- limSup[iTipo]*100*tipoMesh[iTipo]	# K = 0 (escala logar√≠tmica) y K >> q max (escala lineal)
 	}
 
 ##############- Inicio aleatorio o inicio desde el lugar donde se corto
@@ -70,9 +70,9 @@ if ("arranque.txt" %in% archivos == TRUE){	# busca el archivo en la lista
 
 	theorData <- calcularptot(voltajes, q, T, p0, tiempos)	# Calcula con el q que termino
 	
-	} else {		# Si no est· va a inicio aleatorio
+	} else {		# Si no est√° va a inicio aleatorio
 
-	ciclos <- 0		# para ir contando el n˙mero de ciclos de nPasos que va haciendo
+	ciclos <- 0		# para ir contando el n√∫mero de ciclos de nPasos que va haciendo
 
 	factorInicio <- 0.95			# para evitar los bordes
 
@@ -93,24 +93,24 @@ if ("arranque.txt" %in% archivos == TRUE){	# busca el archivo en la lista
 
 	if (funcionDens == "DifCuad") {
 
-		sigmaIni <- sqrt(d2Ini)/3			# MÌnimo sigma para que camine independientemente del inicio	
+		sigmaIni <- sqrt(d2Ini)/3			# M√≠nimo sigma para que camine independientemente del inicio	
 		rhoIni <- exp(-d2Ini/(2*sigmaIni^2))		# rho  inicial con los valores iniciales
 
 	} else if (funcionDens == "Abs") {
 
-		sigmaIni <- d2Ini/3   		# MÌnimo sigma para que camine independientemente del inicio	
+		sigmaIni <- d2Ini/3   		# M√≠nimo sigma para que camine independientemente del inicio	
 		rhoIni <- exp(-d2Ini/sigmaIni)							# rho  inicial con los valores iniciales
 
 		}
 
 	}
 
-#############- Guardar par·metros iniciales/al reanudar en archivo de texto
+#############- Guardar par√°metros iniciales/al reanudar en archivo de texto
 
 informeInicial(d2Ini,d2Fin,nPasosBase,nMaxCiclos,told2,nPromd2,Nini,fileExpData,sigmaIni,semilla,q,factorSigma,
 			factorN,cargaMin,cargaMax,nWrite,informeTxt,Nmax,maxCiclosNSigma)
 
-#############- Ajuste de par·metros de q mediante MCMC
+#############- Ajuste de par√°metros de q mediante MCMC
 
 ajuste <- calcularMCMC(q, d2Ini, nPasosBase, Nini, d2Fin, Kv, limSup, limInf, theorData, expData, 
 				sigmaIni, told2, nMaxCiclos, factorSigma, factorN,fPasos,cargaMin,cargaMax,
