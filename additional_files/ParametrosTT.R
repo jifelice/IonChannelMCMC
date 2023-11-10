@@ -1,6 +1,6 @@
-# Archivo con los parámetros iniciales que se van a usar para el MCMC de Tratamiento Térmico (TT)
+# Archivo con los parÃ¡metros iniciales que se van a usar para el MCMC de Tratamiento TÃ©rmico (TT)
 
-##---- Valores de sigma, N y número de pasos para cada ciclo
+##---- Valores de sigma, N y nÃºmero de pasos para cada ciclo
 
 #sigmasTT <- c(0.10, 0.075, 0.06, 0.05, 0.04, 0.03, 0.025, 0.02    )		# Debe tener tantos elementos como los otros vectores
 #NsTT     <- c(  40,    60,   80,  100   120,  140,  140     )					# Debe tener tantos elementos como los otros vectores
