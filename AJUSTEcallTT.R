@@ -33,7 +33,7 @@ source(paste(directorioFuentes, "AJUSTEmatrizHVCN1.R", sep=""))	# Establece en q
 
 if (funcionDens == "DifCuad"){						# [NUEVO] Definir la densidad de probabilidad 
 	source(paste(directorioFuentes, "AJUSTEdensfunct.R", sep=""))
-	source(paste(directorioFuentes, "AJUSTEcoreMCMC-TT_deltaq_real.R", sep=""))	# Establece en que archivo esta el nucleo el MCMC
+	source(paste(directorioFuentes, "AJUSTEcoreMCMC-TT.R", sep=""))	# Establece en que archivo esta el nucleo el MCMC
 	} else if (funcionDens == "Abs") {
 		source(paste(directorioFuentes, "AJUSTEdensfunctAbs.R", sep=""))		
 		source(paste(directorioFuentes, "AJUSTEcoreMCMCAbs.R", sep=""))	# Establece en que archivo esta el nucleo el MCMC
