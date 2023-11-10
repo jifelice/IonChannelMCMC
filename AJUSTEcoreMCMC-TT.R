@@ -210,9 +210,6 @@ calcularMCMCTT <- function(Kv, limSup, limInf, sigmasTT, NsTT, pasosTT, cargaMin
 					"beta_0_3", "zeta_alpha_1", "zeta_alpha_2", "zeta_alpha_3",
 					"zeta_beta_1", "zeta_beta_2", "zeta_beta_3")
 
-		q0Villalba <- c(4.5940e-4, 1.3196e-3, 1.5538e-2, 3.7759e-7, 4.4267e-3, 8.6658e-4, 	# Valor inicial de coordenadas (para el HVCN1 son 12 parámetros = 12 coordenadas)
-						7.4982e-1, 1.0120, 1.3479e-5, 2.0726, 2.0705, 1.6309e-7)
-
 		filenamepng <- paste("12param-",fecha,".png", sep="")	# Nombre del archivo a guardar
 
 		png(filename=filenamepng, width = 900, height = 600, unit = "px")
@@ -222,13 +219,11 @@ calcularMCMCTT <- function(Kv, limSup, limInf, sigmasTT, NsTT, pasosTT, cargaMin
 ###G for (iParam in 1:6){
 		#	plot(paso, MCMCTT[1:final, iParam], xlab="Número paso", ylab=parametro[iParam], log="y")
 ###G plot(paso, MCMCTT[1:final, iParam], xlab="Número paso", ylab=parametro[iParam], ylim=c(limInf[iParam],limSup[iParam]), log="y")
-###G abline(h=q0Villalba[iParam], col="red")
 ###G }
 
 ###G for (iParam in 7:12){
 		#	plot(paso, MCMCTT[1:final, iParam], xlab="Número paso", ylab=parametro[iParam])
 ###G plot(paso, MCMCTT[1:final, iParam], xlab="Número paso", ylab=parametro[iParam], ylim=c(limInf[iParam],limSup[iParam]))
-###G abline(h=q0Villalba[iParam], col="red")
 ###G }
 
 		dev.off()	
